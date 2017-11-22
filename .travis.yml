@@ -3,6 +3,7 @@ node_js:
   - "node"
 before_install:
   - sed -i 's/git:/https:/g' .git/config
+  - cat .git/config
 deploy:
   - skip_cleanup: true
     provider: script
