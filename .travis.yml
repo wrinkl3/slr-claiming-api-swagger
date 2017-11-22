@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "node"
 before_install:
-  - git config url."https://".insteadOf git://
+  - - sed -i 's/git:/https:/g' .git/config
 deploy:
   - skip_cleanup: true
     provider: script
