@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "node"
+before_install:
+  - git config --global url."https://".insteadOf git://
 deploy:
   - skip_cleanup: true
     provider: script
