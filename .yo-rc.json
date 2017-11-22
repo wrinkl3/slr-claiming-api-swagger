@@ -4,7 +4,7 @@
     "name": "Solarcoin Claiming",
     "repo": "wrinkl3/slr-claiming-api-swagger",
     "splitSpec": false,
-    "samples": true,
+    "samples": false,
     "installSwaggerUI": true
   }
 }
