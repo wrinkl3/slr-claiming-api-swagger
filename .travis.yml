@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "node"
 before_install:
-  - sed -i 's/git:/https:/g' .git/config
+  - sed -i 's|git@github.com:wrinkl3/slr-claiming-api-swagger.git|https://github.com/wrinkl3/slr-claiming-api-swagger.git|g' .git/config
   - cat .git/config
 deploy:
   - skip_cleanup: true
