@@ -1,0 +1,10 @@
+{
+  "generator-openapi-repo": {
+    "importExistingSpec": false,
+    "name": "Solarcoin Claiming",
+    "repo": "wrinkl3/slr-claiming-api-swagger",
+    "splitSpec": false,
+    "samples": true,
+    "installSwaggerUI": true
+  }
+}
