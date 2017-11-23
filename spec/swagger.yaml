@@ -7,31 +7,21 @@ swagger: '2.0'
 schemes:
   - http # Remove if your API doesn't support HTTP
   - https # Remove if your API donsn't support HTTPS
-host: example.com # Replace with your hostname. You can also specify port e.g. example.com:777
-basePath: /api/v1 # Replace with your basePath. Note: SHOULD begin with '/'.
+host: api.solarcoin.org:8080 # Replace with your hostname. You can also specify port e.g. example.com:777
+basePath: / # Replace with your basePath. Note: SHOULD begin with '/'.
 info:
   # Describe your API here, you can use GFM (https://guides.github.com/features/mastering-markdown) here
   description: |
-    This is an **example** API to demontstrate features of OpenAPI specification
+    This is the Claiming API for the Solarcoin Foundation
     # Introduction
-    This specification is intended to to be a good starting point for describint your API in 
-    [OpenAPI/Swagger format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md).
-    It also demonstrates features of [generator-openapi-repo](https://github.com/Rebilly/generator-openapi-repo) tool and 
-    [ReDoc](https://github.com/Rebilly/ReDoc) documentation engine. So beyond the standard OpenAPI syntax we use a few 
-    [vendor extensions](https://github.com/Rebilly/ReDoc/blob/master/docs/redoc-vendor-extensions.md).
+    This section will be expanded at a later time.
     
-    # OpenAPI Specification
-    The goal of The OpenAPI Specification is to define a standard, language-agnostic interface to REST APIs which
-    allows both humans and computers to discover and understand the capabilities of the service without access to source
-    code, documentation, or through network traffic inspection. When properly defined via OpenAPI, a consumer can 
-    understand and interact with the remote service with a minimal amount of implementation logic. Similar to what
-    interfaces have done for lower-level programming, OpenAPI removes the guesswork in calling the service.
 
   version: '1.0.0' # Your API version
   # It can be any string but it is better to use semantic versioning: http://semver.org/
   # Warning: OpenAPI require version to be string, but without quotation YAML can recognize it as number.
 
-  title: Example.com # Replace with your API title
+  title: Solarcoin Claiming Service # Replace with your API title
   # Keep it simple. Don't add "API" or verison at the end of the string.
 
   termsOfService: 'https://example.com/terms/' # [Optional] Replace with an URL to your ToS
@@ -51,24 +41,29 @@ produces:
   # This is a global default. You can OVERWRITE it in each specific operation.
   # Remove the ones not used in your API
   - application/json
-  - application/xml
-  - text/csv
   # you can add any mime type your API produces to the list
 consumes:
   # List of mime types your API endpoins consumes.
   # This is a global default. You can OVERWRITE it in each specific operation.
   # Remove the ones not supported by your API
   - application/json
-  - application/xml
   # you can add any mime type your API consumes to the list
 
 # A list of tags used by the specification with additional metadata.
 # The order of the tags can be used to reflect on their order by the parsing tools.
 tags:
-  - name: Echo
-    description: Example echo operations
-  - name: User
-    description: Operations about user
+  - name: Claim
+    description: Operations that submit claims
+  - name: Uuid
+    description: Operations concerning device uuids
+  - name: Devices
+    description: Operations concerning Devices
+  - name: Integrations
+    description: Operations that handle integrations
+  - name: Projects
+    description: Operations that process projects
+  - name: Admin
+    description: Admin operations
 # Security scheme definitions that can be used across the specification.
 securityDefinitions:
   main_auth: # security definition name (you can name it as you want)
@@ -90,6 +85,399 @@ securityDefinitions:
 # Holds the relative paths to the individual endpoints. The path is appended to the
 # basePath in order to construct the full URL. 
 paths:
+  '/claim/':
+    post:
+      tags:
+        - Claim
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: submitClaim
+      
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+    
+  '/claim/batch/':
+    post:
+      tags:
+        - Claim
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: submitClaimsBatch
+      
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+  
+  '/claim/actual/':
+    post:
+      tags:
+        - Claim
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: submitActualClaim
+      
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+  
+  '/claim/actual/batch/':
+    post:
+      tags:
+        - Claim
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: submitActualClaimsBatch
+      
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+            
+  '/uuid/':
+    get:
+      tags:
+        - Uuid
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: getUuid
+      
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+            
+  '/uuid/batch/':
+    get:
+      tags:
+        - Uuid
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: getUuidBatch
+      
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+            
+  '/devices/{integration}/':
+    post:
+      tags:
+        - Devices
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: postDevice
+      
+      parameters:
+        - name: integration
+          in: path
+          description: The name that needs to be updated
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+  
+  '/devices/{integration}/{deviceID}':
+    post:
+      tags:
+        - Devices
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: getDevice
+      
+      parameters:
+        - name: integration
+          in: path
+          description: The name that needs to be updated
+          required: true
+          type: string
+        - name: deviceID
+          in: path
+          description: The name that needs to be updated
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+            
+  '/devices/smappee/{integration}/{period}':
+    post:
+      tags:
+        - Devices
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: getSmappeeInfo
+      
+      parameters:
+        - name: integration
+          in: path
+          description: The name that needs to be updated
+          required: true
+          type: string
+        - name: period
+          in: path
+          description: The name that needs to be updated
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+            
+  '/integrations/':
+    post:
+      tags:
+        - Integrations
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: postIntegrations
+      
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+    put:
+      tags:
+        - Integrations
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: putIntegrations
+      
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+            
+  '/projects/update/':
+    post:
+      tags:
+        - Projects
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: updateProjects
+      
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+            
+  '/projects/{projectID}/deactivate':
+    post:
+      tags:
+        - Projects
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: deactiveProject
+      
+      parameters:
+        - name: projectID
+          in: path
+          description: The name that needs to be updated
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+            
+  '/admin/addAffiliate/':
+    post:
+      tags:
+        - Projects
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: postAffiliate
+      
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+            
+  '/admin/{integration}/addUser':
+    post:
+      tags:
+        - Projects
+      
+      summary: bla bla
+      
+      #description: bla bla bla
+      
+      operationId: postUser
+      
+      parameters:
+        - name: integration
+          in: path
+          description: The name that needs to be updated
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/User'
+    
   '/users/{username}': # path parameter in curly braces
     # documentation for GET operation for this path
     
