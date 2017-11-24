@@ -101,13 +101,13 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/RegistrationRequest'
       responses:
         '200':
           description: OK
           headers: {}
-          schema:
-            $ref: '#/definitions/User'
+          schema: 
+            $ref: '#/definitions/RegistrationResponse'
     
   '/claim/batch/':
     post:
@@ -125,13 +125,17 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/User'
+            type: array
+            items:
+              $ref: '#/definitions/RegistrationRequest'
       responses:
         '200':
           description: OK
           headers: {}
           schema:
-            $ref: '#/definitions/User'
+            type: array
+            items:
+              $ref: '#/definitions/RegistrationResponse'
   
   '/claim/actual/':
     post:
@@ -149,13 +153,11 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/ActualClaim'
       responses:
         '200':
           description: OK
           headers: {}
-          schema:
-            $ref: '#/definitions/User'
   
   '/claim/actual/batch/':
     post:
@@ -173,13 +175,13 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/User'
+            type: array
+            items:
+              $ref: '#/definitions/ActualClaim'
       responses:
         '200':
           description: OK
           headers: {}
-          schema:
-            $ref: '#/definitions/User'
             
   '/uuid/':
     get:
@@ -607,6 +609,98 @@ paths:
 # An object to hold data types that can be consumed and produced by operations.
 # These data types can be primitives, arrays or models.
 definitions:
+  RegistrationRequest:
+    description: A claim to be registered
+    type: object
+    properties:
+      firstName:
+        description: User first name
+        type: string
+      lastName:
+        description: User last name
+        type: string
+      projects:
+        type: array
+        items:
+          $ref: '#/definitions/Project'
+      bounty:
+        $ref: '#/definitions/Affiliate'
+  RegistrationResponse:
+    description: A response to a registered claim
+    type: object
+    properties:
+      id:
+        type: string
+      description:
+        type: string
+      claimant:
+        $ref: '#/definitions/RegistrationRequest'
+  Affiliate:
+    description: An affiliate
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      address:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      zipCode:
+        type: string
+      info:
+        type: string
+      codename:
+        type: string
+      description:
+        type: string
+      webHook:
+        type: string
+  Project:
+    description: A project
+    type: object
+    properties:
+      address: 
+        type: string
+      city: 
+        type: string
+      state: 
+        type: string
+      zipCode: 
+        type: string
+      country:
+        type: string
+      nameplate:
+        type: number
+      installDate:
+        type: string
+      walletAddress:
+        type: string
+      documentation: 
+        type: string
+      deviceID: 
+        type: string
+      legalOwner: 
+        type: string
+      claimantRelationship: 
+        type: string
+      ofacCompliant:
+        type: boolean
+  ActualClaim:
+    description: Real-time claim
+    type: object
+    properties:
+      logTime:
+        type: integer
+      kwh:
+        type: number
+      deviceId:
+        type: string
   Email:
     description: User email address
     type: string
