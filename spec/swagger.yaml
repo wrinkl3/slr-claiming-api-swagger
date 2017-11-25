@@ -21,21 +21,14 @@ info:
   # It can be any string but it is better to use semantic versioning: http://semver.org/
   # Warning: OpenAPI require version to be string, but without quotation YAML can recognize it as number.
 
-  title: Solarcoin Claiming Service # Replace with your API title
+  title: Solarcoin Integration # Replace with your API title
   # Keep it simple. Don't add "API" or verison at the end of the string.
 
-  termsOfService: 'https://example.com/terms/' # [Optional] Replace with an URL to your ToS
+  termsOfService: 'https://solarcoin.org/' # [Optional] Replace with an URL to your ToS
   contact:
-    email: contact@example.com # [Optional] Replace with your contact email
-    url: 'http://example.com/contact' # [Optional] Replace with link to your contact form
-  license:
-    name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: 'https://solarcoin.org/contact' # [Optional] Replace with link to your contact form
   x-logo:
-    url: 'https://apis.guru/openapi-template/logo.png'
-externalDocs:
-  description: Find out how to create Github repo for your OpenAPI spec.
-  url: 'https://github.com/Rebilly/generator-openapi-repo'
+    url: 'https://solarcoin.org/sites/default/files/slr-logo.png'
 produces:
   # List of mime types your API endpoins can return.
   # This is a global default. You can OVERWRITE it in each specific operation.
@@ -47,7 +40,6 @@ consumes:
   # This is a global default. You can OVERWRITE it in each specific operation.
   # Remove the ones not supported by your API
   - application/json
-  - multipart/form-data
   # you can add any mime type your API consumes to the list
 
 # A list of tags used by the specification with additional metadata.
@@ -56,15 +48,13 @@ tags:
   - name: Claim
     description: Operations that submit claims
   - name: Uuid
-    description: Operations concerning device uuids
+    description: Operations concerning uuids
   - name: Devices
     description: Operations concerning Devices
   - name: Integrations
     description: Operations that handle integrations
   - name: Projects
     description: Operations that process projects
-  - name: Admin
-    description: Admin operations
 # Security scheme definitions that can be used across the specification.
 securityDefinitions:
   basicAuth: # security definition name (you can name it as you want)
@@ -81,7 +71,7 @@ paths:
       tags:
         - Claim
       
-      summary: bla bla
+      summary: submit a claim
       
       #description: bla bla bla
       
@@ -105,7 +95,7 @@ paths:
       tags:
         - Claim
       
-      summary: bla bla
+      summary: submit a bath of claims
       
       #description: bla bla bla
       
@@ -133,7 +123,7 @@ paths:
       tags:
         - Claim
       
-      summary: bla bla
+      summary: submit a real-time claim
       
       #description: bla bla bla
       
@@ -155,7 +145,7 @@ paths:
       tags:
         - Claim
       
-      summary: bla bla
+      summary: submit a batch of real-time claims
       
       #description: bla bla bla
       
@@ -197,7 +187,7 @@ paths:
       tags:
         - Uuid
       
-      summary: bla bla
+      summary: generate a batch of UUIDs
       
       #description: bla bla bla
       
@@ -221,7 +211,7 @@ paths:
       tags:
         - Devices
       
-      summary: bla bla
+      summary: submit real-time claims for an integration
       
       #description: bla bla bla
       
@@ -254,7 +244,7 @@ paths:
       tags:
         - Devices
       
-      summary: bla bla
+      summary: get total claims of an integration for the last period
       
       #description: bla bla bla
       
@@ -281,7 +271,7 @@ paths:
       tags:
         - Devices
       
-      summary: bla bla
+      summary: get total claims for the given period
       
       #description: bla bla bla
       
@@ -308,7 +298,7 @@ paths:
       tags:
         - Integrations
       
-      summary: bla bla
+      summary: add an integration
       
       #description: bla bla bla
       
@@ -337,7 +327,7 @@ paths:
       tags:
         - Integrations
       
-      summary: bla bla
+      summary: update an integration
       
       #description: bla bla bla
       
@@ -367,7 +357,7 @@ paths:
       tags:
         - Projects
       
-      summary: bla bla
+      summary: update a project
       
       #description: bla bla bla
       
@@ -397,7 +387,7 @@ paths:
       tags:
         - Projects
       
-      summary: bla bla
+      summary: deactive a project
       
       #description: bla bla bla
       
