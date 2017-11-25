@@ -47,6 +47,7 @@ consumes:
   # This is a global default. You can OVERWRITE it in each specific operation.
   # Remove the ones not supported by your API
   - application/json
+  - multipart/form-data
   # you can add any mime type your API consumes to the list
 
 # A list of tags used by the specification with additional metadata.
@@ -66,21 +67,11 @@ tags:
     description: Admin operations
 # Security scheme definitions that can be used across the specification.
 securityDefinitions:
-  main_auth: # security definition name (you can name it as you want)
-    type: oauth2 # authorization type, one of: oauth2, basic, apiKey
-    # the following options are specific to oauth2 type
-    authorizationUrl: 'http://example.com/api/oauth/dialog'
-    flow: implicit
-    scopes:
-      'read:users': read users info
-      'write:users': modify or remove users
-  api_key: # security definition name (you can name it as you want)
-    type: apiKey
-    # The following options are specific to apiKey type
-    in: header # Where API key will be passed: header or query
-    name: api_key # API key paramteer name
-  basic_auth: # security definition name (you can name it as you want)
+  basicAuth: # security definition name (you can name it as you want)
     type: basic
+
+security:
+  - basicAuth: []
 
 # Holds the relative paths to the individual endpoints. The path is appended to the
 # basePath in order to construct the full URL. 
@@ -188,24 +179,18 @@ paths:
       tags:
         - Uuid
       
-      summary: bla bla
+      summary: generates a new UUID
       
       #description: bla bla bla
       
       operationId: getUuid
       
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/User'
       responses:
         '200':
           description: OK
           headers: {}
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/UUIDResponse'
             
   '/uuid/batch/':
     get:
@@ -219,17 +204,17 @@ paths:
       operationId: getUuidBatch
       
       parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/User'
+        - name: batchSize
+          in: query
+          type: integer
+          default: 10
+            
       responses:
         '200':
           description: OK
           headers: {}
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/UUIDBatchResponse'
             
   '/devices/{integration}/':
     post:
@@ -245,23 +230,27 @@ paths:
       parameters:
         - name: integration
           in: path
-          description: The name that needs to be updated
           required: true
           type: string
         - name: body
           in: body
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/ActualClaim'
       responses:
         '200':
           description: OK
           headers: {}
+        '400':
+          description: bad request
+          headers: {}
           schema:
-            $ref: '#/definitions/User'
+            type: array
+            items: 
+              type: string
   
   '/devices/{integration}/{deviceID}':
-    post:
+    get:
       tags:
         - Devices
       
@@ -274,28 +263,21 @@ paths:
       parameters:
         - name: integration
           in: path
-          description: The name that needs to be updated
           required: true
           type: string
         - name: deviceID
           in: path
-          description: The name that needs to be updated
           required: true
           type: string
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/User'
       responses:
         '200':
           description: OK
           headers: {}
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/ActualClaimsResponse'
             
   '/devices/smappee/{integration}/{period}':
-    post:
+    get:
       tags:
         - Devices
       
@@ -308,25 +290,18 @@ paths:
       parameters:
         - name: integration
           in: path
-          description: The name that needs to be updated
           required: true
           type: string
         - name: period
           in: path
-          description: The name that needs to be updated
           required: true
           type: string
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/User'
       responses:
         '200':
           description: OK
           headers: {}
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/ActualClaimsResponse'
             
   '/integrations/':
     post:
@@ -344,13 +319,20 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/IntegrationRequest'
       responses:
         '200':
           description: OK
           headers: {}
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/Affiliate'
+        '404':
+          description: not found
+          headers: {}
+        '400':
+          description: bad request
+          headers: {}
+          
     put:
       tags:
         - Integrations
@@ -366,13 +348,19 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/IntegrationRequest'
       responses:
         '200':
           description: OK
           headers: {}
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/Affiliate'
+        '404':
+          description: not found
+          headers: {}
+        '400':
+          description: bad request
+          headers: {}
             
   '/projects/update/':
     post:
@@ -390,13 +378,19 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/Project'
       responses:
         '200':
           description: OK
           headers: {}
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/Project'
+        '404':
+          description: not found
+          headers: {}
+        '400':
+          description: bad request
+          headers: {}
             
   '/projects/{projectID}/deactivate':
     post:
@@ -419,193 +413,21 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/Project'
       responses:
         '200':
           description: OK
           headers: {}
           schema:
-            $ref: '#/definitions/User'
-            
-  '/admin/addAffiliate/':
-    post:
-      tags:
-        - Projects
-      
-      summary: bla bla
-      
-      #description: bla bla bla
-      
-      operationId: postAffiliate
-      
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/User'
-      responses:
-        '200':
-          description: OK
-          headers: {}
-          schema:
-            $ref: '#/definitions/User'
-            
-  '/admin/{integration}/addUser':
-    post:
-      tags:
-        - Projects
-      
-      summary: bla bla
-      
-      #description: bla bla bla
-      
-      operationId: postUser
-      
-      parameters:
-        - name: integration
-          in: path
-          description: The name that needs to be updated
-          required: true
-          type: string
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/User'
-      responses:
-        '200':
-          description: OK
-          headers: {}
-          schema:
-            $ref: '#/definitions/User'
-    
-  '/users/{username}': # path parameter in curly braces
-    # documentation for GET operation for this path
-    
-    # parameters list that are used with each operation for this path
-    parameters:
-      - name: pretty_print
-        in: query # place where paramter is passed: path, header, query or body, formData
-        description: Pretty print response
-        # type of the paramter: string, number, integer, boolean, array
-        type: boolean
-    get:
-      tags:
-        - User
-      
-      # summary is up to 120 symbold but we recommend to be shortest as possible
-      summary: Get user by user name
-      
-      # you can use GFM in operation description too: https://guides.github.com/features/mastering-markdown
-      description: | 
-        Some description of the operation. 
-        You can use `markdown` here.
-      
-      # operationId should be unique across the whole specification
-      operationId: getUserByName
-      
-      # list of parameters for the operation
-      parameters:
-        - name: username
-          in: path
-          description: 'The name that needs to be fetched'
-          required: true
-          type: string
-        - name: with_email
-          in: query
-          description: Filter users without email
-          type: boolean
-      
-      # security schemas applied to this operation
-      security:
-        - main_auth:
-          - 'read:users' # for auth2 provide list of scopes here
-        - api_key: []
-      # overwriting default global produces
-      produces:
-        - application/json
-      responses: # list of responses
-        '200':
-          description: Success
-          schema: # response schema can be specified for each response
-            $ref: '#/definitions/User'
-          examples:
-          # repsonse samples for each type operation produces
-            application/json:
-              username: user1
-              email: user@example.com
-        '403':
-          description: Forbidden
+            $ref: '#/definitions/Project'
         '404':
-          description: User not found
-    # documentation for PUT operation for this path
-    put:
-      tags:
-        - User
-      summary: Updated user
-      description: This can only be done by the logged in user.
-      operationId: updateUser
-      produces:
-        - application/json
-      parameters:
-        - name: username
-          in: path
-          description: The name that needs to be updated
-          required: true
-          type: string
-        - in: body
-          name: body
-          description: Updated user object
-          required: true
-          # for body parameter you should specify request schema instead of type
-          schema:
-            $ref: '#/definitions/User'
-      security:
-        - main_auth:
-          - 'write:users'
-      responses:
-        '200':
-          description: OK
+          description: not found
+          headers: {}
         '400':
-          description: Invalid user supplied
-        '404':
-          description: User not found
-  
-  '/echo':
-    post:
-      tags:
-        - Echo
-      summary: Echo test
-      description: Receive the exact message you've sent
-      operationId: echo
-      parameters:
-        - name: message
-          in: body
-          description: 'Echo payload'
-          required: true
-          schema:
-            type: string
-            example: 'Hello world!'
-      security:
-        - api_key: []
-      responses:
-        '200':
-          description: 'OK'
-          examples:
-            'application/json': 'Hello world!'
-          schema:
-            type: string
-          # docuemnt headers for this repsonse
-          headers:
-            X-Rate-Limit: # Header name
-              type: integer # Header value type
-              format: int32 # Header value format
-              description: calls per hour allowed by the user
-            X-Expires-After:
-              type: string
-              format: date-time
-              description: date in UTC when token expires
+          description: bad request
+          headers: {}
+            
+
 # An object to hold data types that can be consumed and produced by operations.
 # These data types can be primitives, arrays or models.
 definitions:
@@ -631,7 +453,7 @@ definitions:
     properties:
       id:
         type: string
-      description:
+      affiliate:
         type: string
       claimant:
         $ref: '#/definitions/RegistrationRequest'
@@ -701,28 +523,30 @@ definitions:
         type: number
       deviceId:
         type: string
-  Email:
-    description: User email address
-    type: string
-    format: email
-    example: john.smith@example.com
-  User:
+  UUIDResponse:
+    description: affiliate's UUID info
     type: object
     properties:
-      username:
-        description: User supplied username
+      UUID:
         type: string
-        minLength: 4
-        example: John78
-      firstName:
-        description: User first name
+  UUIDBatchResponse:
+    description: list of of affiliate's UUID info
+    type: object
+    properties:
+      batch:
+        type: array
+        items:
+          type: string
+  ActualClaimsResponse:
+    description: total coins info
+    type: object
+    properties:
+      totalCoins:
+        type: number
+  IntegrationRequest:
+    type: object
+    properties:
+      integration:
         type: string
-        minLength: 1
-        example: John
-      lastName:
-        description: User last name
+      webhook:
         type: string
-        minLength: 1
-        example: Smith
-      email:
-        $ref: '#/definitions/Email'
